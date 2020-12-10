@@ -7,7 +7,7 @@ create table unidade (
 );
 
 create table gerenteUnidade(
-	id int,
+	id bigint,
     nome varchar(45),
     senha varchar(255),
     unidadeGerencia int,
@@ -31,7 +31,7 @@ create table setor(
 );
 
 create table gerenteSetor(
-	id int,
+	id bigint,
     nome varchar(45),
     senha varchar(255),
     setorGerencia int,
@@ -54,7 +54,7 @@ create table maquina(
 );
 
 create table bolsista(
-	id int,
+	id bigint,
     nome varchar(45),
     senha varchar(255),
     data_inicio date,
@@ -72,7 +72,7 @@ create table registro_ponto(
     dia date,
     hora_entrada time,
     hora_saida time,
-    bolsista int,
+    bolsista bigint,
     primary key(id, bolsista),
     foreign key(bolsista)
 		references bolsista(id)
@@ -83,7 +83,7 @@ create table registro_ponto(
 create table justificativa(
 	id int,
     descricao varchar(255),
-    bolsista int,
+    bolsista bigint,
     primary key(id),
     foreign key(bolsista)
 		references bolsista(id)
@@ -100,8 +100,27 @@ create table dia_justificativa(
 );
 
 create table administrador(
-	id int,
+	id bigint,
     nome varchar(45),
     senha varchar(255),
     primary key(id)
 );
+
+insert into unidade values(1, 'IMD'), (2, 'CCET'), (3, 'CB');
+
+insert into gerenteUnidade values(38945131957, 'Rita Isabelle Rocha', 'senha123', 1),
+ (35708942150, 'Mariah Elaine Aparecida Souza', '123senha', 2), 
+ (22073911404, 'Enrico Eduardo Kevin Monteiro', '123senhA321', 3);
+ 
+ insert into setor values(1, 'TI', 1), (2, 'Inovacao', 1), (3, 'Desenvolvimento', 1);
+ 
+ insert into gerenteSetor values(26180320985, 'Lucca Geraldo Benedito Assis', 'pasSenha112233', 1), 
+(63154822526, 'Victor Bernardo Iago Lima', 'pass112233word', 2),
+(30938019406, 'Gabrielly Tânia Bárbara Moreira', '112233', 3);
+ 
+ insert into bolsista values(79220104865, 'Isadora Betina Figueiredo', 'senha123', '2020-11-17', 0, 1),
+(42373216302, 'Yasmin Cláudia Lima', '123', '2020-02-15', 0, 1),
+(70087906350, 'Isabelle Allana Nunes', '123senha', '2020-10-22', 0, 2),
+(36345620726, 'Osvaldo Vicente Oliver da Silva', '123senha', '2020-01-25', 0, 2),
+(49699583274, 'Marcelo Felipe Peixoto', '123senha', '2020-02-13', 0, 3),
+(20880686359, 'Carlos Eduardo Marcos Vinicius Nogueira', '123senha4', '2020-08-20', 0, 3);
