@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const profy = require('./promisify');
+const promisify = require('./promisify');
 const dbCon = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -9,7 +9,7 @@ const dbCon = mysql.createConnection({
 
 async function t(){
     let sql = 'select * from EMPLOYEE';
-    let r = await profy(dbCon, sql);
+    let r = await promisify(dbCon, sql);
     console.log(r);
 }
 
