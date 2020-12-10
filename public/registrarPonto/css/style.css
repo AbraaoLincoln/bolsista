@@ -25,6 +25,7 @@ body{
     align-items: center;
     height: 10%;
     box-shadow: 1px 1px 3px black;
+    border-radius: 10px;
 }
 
 #hora, #minutos, #segundos{

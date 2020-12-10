@@ -3,6 +3,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 require("dotenv").config();
 const registrarPontoRouter = require('./routes/registrarPonto/registrarPonto');
+const gerenciarSetorRouter = require('./routes/gerenciarSetor/gerenciarSetor');
 let app = express();
 //Middlewares
 app.use(express.json());
@@ -11,7 +12,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //Routers
 app.use('/registrarPonto', registrarPontoRouter);
-
+app.use('/gerenciarSetor', gerenciarSetorRouter);
 
 
 //Inicialização do Servidor
