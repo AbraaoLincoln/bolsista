@@ -94,3 +94,20 @@ function loadMenu(){
     document.getElementById('backMenu').style.display ='flex';
     document.getElementById('tBack').style.display ='none';
 }
+
+function searchName(){
+    let searchName = document.getElementById('nomePesquisa').value.toLowerCase();
+    let table = document.getElementById('tBolsista');
+    console.log(searchName)
+    if(searchName == ''){
+        for(let i = 1; i < table.children.length; i++){
+            table.children[i].style.display = 'table-row';
+        }
+    }else{
+        for(let i = 1; i < table.children.length; i++){
+            if(!table.children[i].children[1].innerText.toLowerCase().includes(searchName)){
+                table.children[i].style.display = 'none';
+            }
+        }
+    }
+}
