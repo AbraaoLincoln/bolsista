@@ -123,4 +123,7 @@ insert into gerenteUnidade values(38945131957, 'Rita Isabelle Rocha', 'senha123'
 (70087906350, 'Isabelle Allana Nunes', '123senha', '2020-10-22', 0, 2),
 (36345620726, 'Osvaldo Vicente Oliver da Silva', '123senha', '2020-01-25', 0, 2),
 (49699583274, 'Marcelo Felipe Peixoto', '123senha', '2020-02-13', 0, 3),
-(20880686359, 'Carlos Eduardo Marcos Vinicius Nogueira', '123senha4', '2020-08-20', 0, 3);
+(20880686359, 'Carlos Eduardo Marcos Vinicius Nogueira', '123senha4', '2020-08-20', 0, 3),
+(84801934846, 'Edson Enzo Breno Castro', 'senha123', '2020-01-10', 0, 1),
+ (28075351517, 'Murilo Jorge Aparício', 'senha1234', '2020-03-02', 0, 2),
+ (04463689201, 'Sarah Brenda Heloisa Gomes', 'senha', '2020-03-07', 0, 3);

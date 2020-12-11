@@ -13,9 +13,9 @@
         <h3>SigBolsista</h3>
         <span onclick="logout()"><i class="fas fa-sign-out-alt"></i></span>
     </header>
-    <div class="mainContent">
+    <div class="menu" id="backMenu">
         <div class="row">
-            <div class="opt">
+            <div class="opt" onclick="carregarBolsista()">
                 <i class="fas fa-users fa-2x"></i>
                 <p>Gerenciar</p>
                 <p>Bolsistas</p>
@@ -38,6 +38,21 @@
             <div class="opt">7</div>
             <div class="opt">8</div>
         </div>
+    </div>
+    <div class="tableBack" id="tBack">
+        <div class="action">
+            <div class="searchName">
+                <input type="text" name="" id="" placeholder="digite um nome">
+                <span><i class="fas fa-search"></i></span>
+            </div>
+            <div class="buttons">
+                <button type="button">Salvar Alterações</button>
+                <button type="button">Deletar Marcados</button>
+            </div>
+        </div>
+        <table class="tableBolsista" id="tBolsista">
+
+        </table>
     </div>
 </body>
 </html>
