@@ -1,12 +1,6 @@
-const mysql = require('mysql');
 const promisify = require('../promisify');
 const table = require('./tables');
-const dbCon = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '123',
-    database: "SigBolsista"
-});
+const dbCon = require('../dbCon');
 
 async function createTables(){
     await promisify(dbCon, table.unidade);

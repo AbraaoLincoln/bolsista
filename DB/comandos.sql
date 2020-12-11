@@ -127,3 +127,5 @@ insert into gerenteUnidade values(38945131957, 'Rita Isabelle Rocha', 'senha123'
 (84801934846, 'Edson Enzo Breno Castro', 'senha123', '2020-01-10', 0, 1),
  (28075351517, 'Murilo Jorge Aparício', 'senha1234', '2020-03-02', 0, 2),
  (04463689201, 'Sarah Brenda Heloisa Gomes', 'senha', '2020-03-07', 0, 3);
+ 
+ insert into bolsista values(12345678912, 'Fulano Cicrano da Silva', '123', '2020-12-11', 100, 1);

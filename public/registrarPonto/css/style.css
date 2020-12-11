@@ -15,7 +15,7 @@ body{
 .conteudo{
     display: flex;
     flex-direction: column;
-    height: 60%;
+    height: 80%;
 }
 
 .horario{

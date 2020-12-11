@@ -47,7 +47,8 @@ function createTable(listaDeBolsistas){
         tableHeader2.innerHTML = bolsista.nome;
         tableHeader2.className = 'tdNome';
         let tableHeader3 = document.createElement('td');
-        tableHeader3.innerHTML = bolsista.data_inicio;
+        let data = new Date(bolsista.data_inicio);
+        tableHeader3.innerHTML = data.getDay() + '/' + data.getMonth() +'/' + data.getFullYear();
         let tableHeader4 = document.createElement('td');
         tableHeader4.innerHTML = bolsista.carga_horaria;
         let tableHeader5 = document.createElement('td');
@@ -98,7 +99,7 @@ function loadMenu(){
 function searchName(){
     let searchName = document.getElementById('nomePesquisa').value.toLowerCase();
     let table = document.getElementById('tBolsista');
-    console.log(searchName)
+
     if(searchName == ''){
         for(let i = 1; i < table.children.length; i++){
             table.children[i].style.display = 'table-row';

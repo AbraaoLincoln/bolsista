@@ -1,11 +1,5 @@
-const mysql = require('mysql');
 const promisify = require('../promisify');
-const dbCon = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '123',
-    database: "SigBolsista"
-});
+const dbCon = require('../dbCon');
 
 async function populate(){
     let sql1 = "insert into unidade values(1, 'IMD'), (2, 'CCET'), (3, 'CB')";

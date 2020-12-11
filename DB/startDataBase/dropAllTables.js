@@ -1,11 +1,5 @@
-const mysql = require('mysql');
 const promisify = require('../promisify');
-const dbCon = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '123',
-    database: "SigBolsista"
-});
+const dbCon = require('../dbCon');
 
 async function dropAllTables(){
     // let sql = 'show tables';

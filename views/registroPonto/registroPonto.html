@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Ponto</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/time.js"></script>
+    <script src="js/functions.js"></script>
 </head>
 <body>
     <div class="conteudo">
@@ -19,9 +19,9 @@
         <div class="login">
             <h3>Registrar Ponto</h3>
             <form action="" method="POST" class="loginForm">
-                <input type="text" placeholder="CPF" class="inputButton">
+                <input type="text" placeholder="CPF" class="inputButton" id="cpf">
                 <input type="password" placeholder="Senha" class="inputButton">
-                <button type="button" class="inputButton">Registrar</button>
+                <button type="button" class="inputButton" onclick="registrarPontoNoBD()">Registrar</button>
             </form>
         </div>
     </div>
