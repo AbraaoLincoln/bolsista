@@ -88,7 +88,6 @@ function showEditBolsista(event){
     document.getElementById('updateForm').style.display = 'flex';
 
     let dadosBolsista = event.target.parentNode.children;
-    console.log(dadosBolsista);
 
     document.getElementById('updateCpfBol').value = dadosBolsista[0].innerText;
     document.getElementById('updateNomebol').value = dadosBolsista[1].innerText;
@@ -103,7 +102,6 @@ function showEditRegistroPonto(event){
     document.getElementById('updateFormPonto').style.display = 'flex';
 
     let dadosBolsista = event.target.parentNode.children;
-    console.log(dadosBolsista);
 
     document.getElementById('updateCpfBolPonto').value = dadosBolsista[0].innerText;
     document.getElementById('updateNomebolPonto').value = dadosBolsista[1].innerText;
@@ -149,7 +147,8 @@ function createTableRegistroPonto(listaDeRegistro){
         tableHeader1.innerHTML = registro.bolsista;
         let tableHeader2 = document.createElement('td');
         let data = new Date(registro.dia);
-        tableHeader2.innerHTML = data.getDay() + '/' + data.getMonth() +'/' + data.getFullYear();
+        tableHeader2.innerHTML = data.getDate() + '/' + (data.getMonth() + 1) +'/' + data.getFullYear();
+        // tableHeader2.innerHTML = registro.dia;
         let tableHeader3 = document.createElement('td');
         tableHeader3.innerHTML = formatHour(registro.hora_entrada);
         let tableHeader4 = document.createElement('td');
@@ -166,8 +165,10 @@ function createTableRegistroPonto(listaDeRegistro){
 }
 
 function formatHour(hourInt){
-    let str = hourInt.toString();
-    return str[0] + str[1] + ':' + str[2] + str[3];
+    if(hourInt){
+        let str = hourInt.toString();
+        return str[0] + str[1] + ':' + str[2] + str[3];
+    }
 }
 
 //Geral
@@ -191,5 +192,53 @@ function searchName(){
                 table.children[i].style.display = 'none';
             }
         }
+    }
+}
+
+function deleteAll(){
+    let table = document.getElementById('tBolsista');
+    let tLength = table.children[0].children.length
+    let itensToDelete = []
+    for(let i = 1; i < table.children.length; i++){
+        if(table.children[i].children[tLength -1].checked){
+            let obj = {
+                cpf: table.children[i].children[0].innerText,
+                dia: formatDateMysql(table.children[i].children[1].innerText)
+            }
+            itensToDelete.push(obj);
+        }
+    }
+
+    if(currentPage == 1){
+
+    }else if(currentPage == 2){
+        deleteRegistroDePontoNoBD(itensToDelete);
+    }
+    
+}
+
+function formatDateMysql(dataToFormat){
+    let splitDate = dataToFormat.split('/');
+    return splitDate[2] + '-' + splitDate[1] + '-' + splitDate[0];
+}
+
+async function deleteRegistroDePontoNoBD(listaDeRegistro){
+    try {
+        let rawData = await fetch('http://localhost:3000/ponto', {
+           method: "DELETE",
+           headers: {
+               'Accept': 'application/json',
+               'Content-type': 'application/json'
+           },
+           body: JSON.stringify({listaDeRegistroToDelete: listaDeRegistro}) 
+        });
+        let res = await rawData.json();
+        if(res.status == 'ok'){
+            alert('Itens deletados com sucesso!');
+        }else{
+            alert('Erro ao deletar os itens selecionados tente novamente mais tarde!');
+        }
+    } catch (err) {
+      console.log(err);  
     }
 }

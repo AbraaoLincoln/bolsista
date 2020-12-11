@@ -12,12 +12,12 @@ function startTimer(){
 window.onload = startTimer;
 
 async function registrarPontoNoBD(){
-    let data = new Date();
-    let dataDeHoje = data.getFullYear() + '-' + data.getMonth() + '-' + data.getDay();
+    let date = new Date();
+    let dataDeHoje = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
     let registroPonto = {
         cpf: document.getElementById('cpf').value,
         data: dataDeHoje,
-        hora: data.getHours() + '' +data.getMinutes()
+        hora: date.getHours() + '' + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
     }
 
     try {
