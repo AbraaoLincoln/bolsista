@@ -31,6 +31,10 @@ router.post('/', async (req, res) => {
         }else{
             let sqlUpdate = "update registro_ponto set hora_saida = " + req.body.hora + " where dia = '" + req.body.data + "' and bolsista = " + req.body.cpf;
             await promisify(dbCon, sqlUpdate);
+            let r = await promisify(dbCon, "select carga_horaria from bolsista where id = " + req.body.cpf);
+            let nova_carga_horaria = r[0].carga_horaria + (req.body.hora - registroDeEntrada[0].hora_entrada);
+            sqlUpdate = "update bolsista set carga_horaria = " + nova_carga_horaria + " where id = " + req.body.cpf;
+            await promisify(dbCon, sqlUpdate);
         }
         res.json({status: 'ok'});
     } catch (err) {
