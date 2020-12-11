@@ -4,8 +4,19 @@ let router = express.Router();
 const dbCon = require('../../DB/dbCon');
 const promisify = require('../../DB/promisify');
 
-router.get('/', (req, res) => {
+router.get('/registro', (req, res) => {
     res.sendFile('registroPonto.html', {root: path.join(__dirname, '../../views/registroPonto')});
+});
+
+router.get('/', async (req, res) => {
+    try {
+        let sql =  "select * from registro_ponto";
+        let registroDePonto =  await promisify(dbCon, sql);
+        res.json({status: 'ok', result: registroDePonto});
+    } catch (err) {
+        console.log(err);
+        res.json({status: 'error'});
+    }
 });
 
 router.post('/', async (req, res) => {

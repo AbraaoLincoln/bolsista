@@ -1,8 +1,5 @@
 function updateHour(){
     let date = new Date();
-    // date.getFullYear()
-    // date.getMonth()
-    // date.getDay()
     document.getElementById('hora').innerText = date.getHours();
     document.getElementById('minutos').innerText = date.getMinutes();
     document.getElementById('segundos').innerText = date.getSeconds();
@@ -24,7 +21,7 @@ async function registrarPontoNoBD(){
     }
 
     try {
-        let rawData = await fetch('http://localhost:3000/registrarPonto', {
+        let rawData = await fetch('http://localhost:3000/ponto', {
            method: "POST",
            headers: {
                'Accept': 'application/json',
@@ -41,6 +38,5 @@ async function registrarPontoNoBD(){
     } catch (err) {
       console.log(err);  
     }
-
 
 }

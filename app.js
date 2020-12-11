@@ -12,7 +12,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //Routers
-app.use('/registrarPonto', registrarPontoRouter);
+app.use('/ponto', registrarPontoRouter);
 app.use('/gerenciarSetor', gerenciarSetorRouter);
 app.use('/bolsista', bolsistaRouter);
 
