@@ -23,6 +23,10 @@ header h3{
     margin-left: 2%;
 }
 
+header h3:hover{
+    cursor: pointer;
+}
+
 header span{
     margin-right: 2%;
 }
@@ -73,9 +77,10 @@ i{
 .tableBack{
     width: 100vw;
     height: 93%;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
+    position: absolute;
 }
 
 table{
@@ -89,8 +94,8 @@ td{
     text-align: center;
 }
 
-td input{
-    width: 100%;
+tr:hover{
+  cursor: pointer;  
 }
 
 .tdNome{
@@ -153,4 +158,47 @@ td input{
 .searchName span:hover{
     cursor: pointer;
     transform: scale(1.1);
+}
+
+.backForms{
+    position: absolute;
+    z-index: 1;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 93vh;
+    background-color: rgba(42, 98, 143, .5);
+}
+
+.formAddBolsista{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 30%;
+    height: 80%;
+    background-color: white;
+    box-shadow: 1px 1px 3px black;
+    border-radius: 5px;
+}
+
+.formAddBolsista input{
+    width: 90%;
+    height: 8%;
+    outline-color: #2a628f;
+    box-shadow: 1px 1px 3px black;
+    border: none;
+}
+
+.formAddBolsista button{
+    width: 90%;
+    height: 8%;
+    border: none;
+    box-shadow: 1px 1px 3px black;
+    outline: none;
+}
+
+.formAddBolsista button:hover{
+    cursor: pointer;
 }

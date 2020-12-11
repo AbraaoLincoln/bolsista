@@ -10,7 +10,7 @@
 </head>
 <body>
     <header>
-        <h3>SigBolsista</h3>
+        <h3 onclick="loadMenu()">SigBolsista</h3>
         <span onclick="logout()"><i class="fas fa-sign-out-alt"></i></span>
     </header>
     <div class="menu" id="backMenu">
@@ -46,13 +46,35 @@
                 <span><i class="fas fa-search"></i></span>
             </div>
             <div class="buttons">
-                <button type="button">Salvar Alterações</button>
+                <button type="button" onclick="showAddBolsistaForm()">Adicionar Bolsista</button>
                 <button type="button">Deletar Marcados</button>
             </div>
         </div>
         <table class="tableBolsista" id="tBolsista">
 
         </table>
+    </div>
+    <div class="backForms" id="bForms">
+        <div class="formAddBolsista" id="addForm">
+            <h3>Adicionar Bolsista</h3>
+            <input type="text" id="cpfBol" placeholder="cpf">
+            <input type="text" id="nomebol" placeholder="nome">
+            <input type="text" id="dataIncBol" placeholder="data de inicio">
+            <input type="text" id="setorBol" placeholder="setor do bolsista">
+            <input type="password" id="passBol" placeholder="senha">
+            <button type="button">Adicionar</button>
+            <button type="button" onclick="hideAddBolsistaForm()">Cancelar</button>
+        </div>
+        <div class="formAddBolsista" id="updateForm">
+            <h3>Atualizar Dados do Bolsista</h3>
+            <input type="text" id="updateCpfBol" placeholder="cpf">
+            <input type="text" id="updateNomebol" placeholder="nome">
+            <input type="text" id="updateDataIncBol" placeholder="data de inicio">
+            <input type="text" id="updateSetorBol" placeholder="setor do bolsista">
+            <input type="password" id="updatePassBol" placeholder="nova senha">
+            <button type="button">Salvar Alterações</button>
+            <button type="button" onclick="hideAddBolsistaForm()">Cancelar</button>
+        </div>
     </div>
 </body>
 </html>
