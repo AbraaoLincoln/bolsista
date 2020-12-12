@@ -8,8 +8,23 @@
 var currentPage = 0;
 // var tableRows = [];
 
+window.onload = start;
+
+function start(){
+    switch(localStorage.getItem('page')){
+        case '1':
+            carregarBolsista();
+            break;
+        case '2':
+            console.log('asdasd')
+            carregarRegistroPonto();
+            break;
+    }
+}
+
 function logout(){
     alert("Esse butão não faz nada!")
+    localStorage.setItem('page', 0);
 }
 
 async function carregarBolsista(){
@@ -21,6 +36,7 @@ async function carregarBolsista(){
         createTableBolsistas(res.listaDeBolsista);
         document.getElementById('backMenu').style.display ='none';
         document.getElementById('tBack').style.display ='flex';
+        localStorage.setItem('page', currentPage);
     } catch (err) {
         console.log(err)
     }
@@ -128,6 +144,7 @@ async function carregarRegistroPonto(){
         createTableRegistroPonto(res.result);
         document.getElementById('backMenu').style.display ='none';
         document.getElementById('tBack').style.display ='flex';
+        localStorage.setItem('page', currentPage);
     } catch (err) {
         console.log(err)
     }
@@ -198,6 +215,7 @@ function loadMenu(){
         document.getElementById('tBack').style.display ='none';
     }
     currentPage = 0;
+    localStorage.setItem('page', 0);
 }
 
 function searchName(){
@@ -319,6 +337,7 @@ function showSetorMenu(){
     document.getElementById('row2').style.display = 'none';
     document.getElementById('row3').style.display = 'flex';
     currentPage = 5;
+    localStorage.setItem('page', 0);
 }
 
 function showUnidadeMenu(){
@@ -326,4 +345,6 @@ function showUnidadeMenu(){
     document.getElementById('row2').style.display = 'none';
     document.getElementById('row4').style.display = 'flex';
     currentPage = 6;
+    localStorage.setItem('page', 0);
+    
 }

@@ -79,6 +79,30 @@ create table registro_ponto(
         on delete cascade
 );
 
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS check_hora $$
+create trigger check_hora before insert 
+on registro_ponto
+for each row
+begin
+if  new.hora_entrada > new.hora_saida then
+set new.hora_saida = 0;
+end if;
+end $$
+
+DROP TRIGGER IF EXISTS check_hora_update $$
+create trigger check_hora_update before update 
+on registro_ponto
+for each row
+begin
+if  old.hora_entrada > new.hora_saida then
+set new.hora_saida = old.hora_saida;
+end if;
+end $$
+
+DELIMITER ;
+
 create table justificativa(
 	id int auto_increment,
     descricao varchar(255),

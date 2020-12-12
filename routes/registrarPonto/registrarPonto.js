@@ -30,12 +30,16 @@ router.post('/', async (req, res) => {
             let sqlInsert = "insert into registro_ponto values ('" + req.body.data + "'," + req.body.hora + ", null, " + req.body.cpf + ")"; 
             await promisify(dbCon, sqlInsert);
         }else{
-            let sqlUpdate = "update registro_ponto set hora_saida = " + req.body.hora + " where dia = '" + req.body.data + "' and bolsista = " + req.body.cpf;
-            await promisify(dbCon, sqlUpdate);
-            let r = await promisify(dbCon, "select carga_horaria from bolsista where id = " + req.body.cpf);
-            let nova_carga_horaria = r[0].carga_horaria + util.calculateNewCargaHoraria(registroDeEntrada[0].hora_entrada, req.body.hora);
-            sqlUpdate = "update bolsista set carga_horaria = " + nova_carga_horaria + " where id = " + req.body.cpf;
-            await promisify(dbCon, sqlUpdate);
+            if(req.body.hora >= registroDeEntrada[0].hora_entrada){
+                let sqlUpdate = "update registro_ponto set hora_saida = " + req.body.hora + " where dia = '" + req.body.data + "' and bolsista = " + req.body.cpf;
+                await promisify(dbCon, sqlUpdate);
+                let r = await promisify(dbCon, "select carga_horaria from bolsista where id = " + req.body.cpf);
+                let nova_carga_horaria = r[0].carga_horaria + util.calculateNewCargaHoraria(registroDeEntrada[0].hora_entrada, req.body.hora);
+                sqlUpdate = "update bolsista set carga_horaria = " + nova_carga_horaria + " where id = " + req.body.cpf;
+                await promisify(dbCon, sqlUpdate);
+            }else{
+                res.json({status: 'error'});
+            }
         }
         res.json({status: 'ok'});
     } catch (err) {
@@ -46,16 +50,20 @@ router.post('/', async (req, res) => {
 
 router.post('/completo', async (req, res) => {
     console.log(req.body);
-    try {
-        let sqlInsert = "insert into registro_ponto values ('"+ req.body.data + "'," + req.body.horaEntrada + "," + req.body.horaSaida + "," + req.body.cpf + ')';
-        await promisify(dbCon, sqlInsert);
-        let r = await promisify(dbCon, "select carga_horaria from bolsista where id = " + req.body.cpf);
-        let nova_carga_horaria = r[0].carga_horaria + util.calculateNewCargaHoraria(req.body.horaEntrada, req.body.horaSaida);
-        sqlUpdate = "update bolsista set carga_horaria = " + nova_carga_horaria + " where id = " + req.body.cpf;
-        await promisify(dbCon, sqlUpdate);
-        res.json({status: 'ok'});
-    } catch (err) {
-        console.log(err);
+    if(req.body.horaEntrada <= req.body.horaSaida){
+        try {
+            let sqlInsert = "insert into registro_ponto values ('"+ req.body.data + "'," + req.body.horaEntrada + "," + req.body.horaSaida + "," + req.body.cpf + ')';
+            await promisify(dbCon, sqlInsert);
+            let r = await promisify(dbCon, "select carga_horaria from bolsista where id = " + req.body.cpf);
+            let nova_carga_horaria = r[0].carga_horaria + util.calculateNewCargaHoraria(req.body.horaEntrada, req.body.horaSaida);
+            sqlUpdate = "update bolsista set carga_horaria = " + nova_carga_horaria + " where id = " + req.body.cpf;
+            await promisify(dbCon, sqlUpdate);
+            res.json({status: 'ok'});
+        } catch (err) {
+            console.log(err);
+            res.json({status: 'error'});
+        }
+    }else{
         res.json({status: 'error'});
     }
 })

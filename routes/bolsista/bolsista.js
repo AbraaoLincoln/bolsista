@@ -10,7 +10,7 @@ const dbCon = mysql.createConnection({
 });
 
 router.get('/', async (req, res) => {
-    let sql = 'select * from bolsista'
+    let sql = 'select id, nome, data_inicio, carga_horaria, setor from bolsista'
     let result = await promisify(dbCon, sql);
     // console.log(result);
     // dbCon.end();
