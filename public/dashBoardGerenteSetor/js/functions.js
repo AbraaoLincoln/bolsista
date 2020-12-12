@@ -1,4 +1,12 @@
+// 0 = pagina principal
+// 1 = gerenciamento de bolsista
+// 2 = gerenciamento de ponto
+// 3 = gerenciamento de justificativa
+// 4 = gerenciamento de maquina de ponto
+// 5 = gerenciamento de setor
+// 6 = gerenciamento de unidade
 var currentPage = 0;
+// var tableRows = [];
 
 function logout(){
     alert("Esse butão não faz nada!")
@@ -19,6 +27,7 @@ async function carregarBolsista(){
 }
 
 function createTableBolsistas(listaDeBolsistas){
+    // tableRows = [];
     let atributes = ['CPF', 'Nome', 'Data Inicio', 'Carga Horaria', 'Setor'];
     let table = document.getElementById('tBolsista');
     table.innerHTML = '';
@@ -58,6 +67,7 @@ function createTableBolsistas(listaDeBolsistas){
         tableRow.appendChild(tableHeader5);
         tableRow.appendChild(tableHeader6);
         table.appendChild(tableRow);
+        // tableRows.push(tableRow);
     }
 }
 
@@ -124,6 +134,7 @@ async function carregarRegistroPonto(){
 }
 
 function createTableRegistroPonto(listaDeRegistro){
+    // tableRows = [];
     let atributes = ['CPF', 'Dia', 'Hora Inicio', 'Hora Saida'];
     let table = document.getElementById('tBolsista');
     table.innerHTML = '';
@@ -161,6 +172,7 @@ function createTableRegistroPonto(listaDeRegistro){
         tableRow.appendChild(tableHeader4);
         tableRow.appendChild(tableHeader5);
         table.appendChild(tableRow);
+        // tableRows.push(tableRow);
     }
 }
 
@@ -173,27 +185,56 @@ function formatHour(hourInt){
 
 //Geral
 function loadMenu(){
+    if(currentPage == 5){
+        document.getElementById('row1').style.display = 'flex';
+        document.getElementById('row2').style.display = 'flex';
+        document.getElementById('row3').style.display = 'none';
+    }else if(currentPage == 6){
+        document.getElementById('row1').style.display = 'flex';
+        document.getElementById('row2').style.display = 'flex';
+        document.getElementById('row4').style.display = 'none';
+    }else{
+        document.getElementById('backMenu').style.display ='flex';
+        document.getElementById('tBack').style.display ='none';
+    }
     currentPage = 0;
-    document.getElementById('backMenu').style.display ='flex';
-    document.getElementById('tBack').style.display ='none';
 }
 
 function searchName(){
     let searchName = document.getElementById('nomePesquisa').value.toLowerCase();
     let table = document.getElementById('tBolsista');
 
-    if(searchName == ''){
-        for(let i = 1; i < table.children.length; i++){
+    for(let i = 1; i < table.children.length; i++){
+        if(!table.children[i].children[1].innerText.toLowerCase().includes(searchName)){
+            table.children[i].style.display = 'none';
+        }else{
             table.children[i].style.display = 'table-row';
-        }
-    }else{
-        for(let i = 1; i < table.children.length; i++){
-            if(!table.children[i].children[1].innerText.toLowerCase().includes(searchName)){
-                table.children[i].style.display = 'none';
-            }
         }
     }
 }
+
+// function searchName(){
+//     let searchName = document.getElementById('nomePesquisa').value.toLowerCase();
+//     console.log(tableRows);
+
+//     for(let i = 0; i < tableRows.length; i++){
+//         if(!tableRows[i].children[1].innerText.toLowerCase().includes(searchName)){
+//             tableRows[i].style.display = 'none';
+//             console.log(searchName);
+//         }else{
+//             tableRows[i].style.display = 'table-row';
+//         }
+//     }
+// }
+
+function add(){
+    if(currentPage == 1){
+
+    }else if(currentPage == 2){
+        registrarPontoCompletoNoBD();
+    }
+}
+
 
 function deleteAll(){
     let table = document.getElementById('tBolsista');
@@ -222,6 +263,36 @@ function formatDateMysql(dataToFormat){
     return splitDate[2] + '-' + splitDate[1] + '-' + splitDate[0];
 }
 
+async function registrarPontoCompletoNoBD(){
+    let registroPonto = {
+        cpf: document.getElementById('cpfBolPonto').value,
+        data: formatDateMysql(document.getElementById('diabolPonto').value),
+        horaEntrada: document.getElementById('horaIncBolPonto').value,
+        horaSaida: document.getElementById('horaSaidaBolPonto').value
+    }
+
+    try {
+        let rawData = await fetch('http://localhost:3000/ponto/completo', {
+           method: "POST",
+           headers: {
+               'Accept': 'application/json',
+               'Content-type': 'application/json'
+           },
+           body: JSON.stringify(registroPonto) 
+        });
+        let res = await rawData.json();
+        if(res.status == 'ok'){
+            alert('Ponto Registrado com sucesso!');
+        }else{
+            alert('Erro ao registrar o ponto tente novamente mais tarde!');
+        }
+    } catch (err) {
+      console.log(err);  
+    }
+
+}
+
+
 async function deleteRegistroDePontoNoBD(listaDeRegistro){
     try {
         let rawData = await fetch('http://localhost:3000/ponto', {
@@ -241,4 +312,18 @@ async function deleteRegistroDePontoNoBD(listaDeRegistro){
     } catch (err) {
       console.log(err);  
     }
+}
+
+function showSetorMenu(){
+    document.getElementById('row1').style.display = 'none';
+    document.getElementById('row2').style.display = 'none';
+    document.getElementById('row3').style.display = 'flex';
+    currentPage = 5;
+}
+
+function showUnidadeMenu(){
+    document.getElementById('row1').style.display = 'none';
+    document.getElementById('row2').style.display = 'none';
+    document.getElementById('row4').style.display = 'flex';
+    currentPage = 6;
 }

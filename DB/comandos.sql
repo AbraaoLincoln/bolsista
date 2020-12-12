@@ -1,17 +1,17 @@
 use SigBolsista;
 
 create table unidade (
-	id int,
+	id int auto_increment,
     nome varchar(45),
     primary key(id)
 );
 
 create table gerenteUnidade(
-	id bigint,
+	cpf char(11),
     nome varchar(45),
     senha varchar(255),
     unidadeGerencia int,
-    primary key(id),
+    primary key(cpf),
     foreign key(unidadeGerencia)
 		references unidade(id)
         on update cascade
@@ -20,7 +20,7 @@ create table gerenteUnidade(
 );
 
 create table setor(
-	id int,
+	id int auto_increment,
     nome varchar(45),
     unidade int,
     primary key(id),
@@ -31,11 +31,11 @@ create table setor(
 );
 
 create table gerenteSetor(
-	id bigint,
+	cpf char(11),
     nome varchar(45),
     senha varchar(255),
     setorGerencia int,
-    primary key(id),
+    primary key(cpf),
     foreign key(setorGerencia)
 		references setor(id)
         on update cascade
@@ -44,9 +44,9 @@ create table gerenteSetor(
 );
 
 create table maquina(
-	id int,
+	ip int,
     setor int,
-    primary key(id),
+    primary key(ip),
     foreign key(setor)
 		references setor(id)
         on update cascade
@@ -54,13 +54,13 @@ create table maquina(
 );
 
 create table bolsista(
-	id bigint,
+	cpf char(11),
     nome varchar(45),
     senha varchar(255),
     data_inicio date,
     carga_horaria int,
     setor int,
-    primary key(id),
+    primary key(cpf),
     foreign key(setor)
 		references setor(id)
         on update cascade
@@ -68,25 +68,24 @@ create table bolsista(
 );
 
 create table registro_ponto(
-	id int,
     dia date,
-    hora_entrada time,
-    hora_saida time,
-    bolsista bigint,
-    primary key(id, bolsista),
+    hora_entrada int,
+    hora_saida int,
+    bolsista char(11),
+    primary key(dia, bolsista),
     foreign key(bolsista)
-		references bolsista(id)
+		references bolsista(cpf)
         on update cascade
         on delete cascade
 );
 
 create table justificativa(
-	id int,
+	id int auto_increment,
     descricao varchar(255),
-    bolsista bigint,
+    bolsista char(11),
     primary key(id),
     foreign key(bolsista)
-		references bolsista(id)
+		references bolsista(cpf)
         on update cascade
         on delete cascade
 );
@@ -100,10 +99,10 @@ create table dia_justificativa(
 );
 
 create table administrador(
-	id bigint,
+	cpf char(11),
     nome varchar(45),
     senha varchar(255),
-    primary key(id)
+    primary key(cpf)
 );
 
 insert into unidade values(1, 'IMD'), (2, 'CCET'), (3, 'CB');

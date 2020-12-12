@@ -14,7 +14,7 @@
         <span onclick="logout()"><i class="fas fa-sign-out-alt"></i></span>
     </header>
     <div class="menu" id="backMenu">
-        <div class="row">
+        <div class="row" id="row1">
             <div class="opt" onclick="carregarBolsista()">
                 <i class="fas fa-users fa-2x"></i>
                 <p>Gerenciar</p>
@@ -36,11 +36,39 @@
                 <p>Maquinas</p>
             </div>
         </div>
-        <div class="row">
-            <div class="opt">5</div>
-            <div class="opt">6</div>
+        <div class="row" id="row2">
+            <div class="opt" onclick="showSetorMenu()">
+                <i class="fas fa-vector-square fa-2x"></i>
+                <p>Gerenciar</p>
+                <p>Setores</p>
+            </div>
+            <div class="opt" onclick="showUnidadeMenu()">
+                <i class="fas fa-building fa-2x"></i>
+                <p>Gerenciar</p>
+                <p>Unidades</p>
+            </div>
             <div class="opt">7</div>
             <div class="opt">8</div>
+        </div>
+        <div class="row subRow" id="row3">
+            <div class="opt opt1">
+                <i class="fas fa-users fa-2x"></i>
+                <p>Gerentes</p>
+            </div>
+            <div class="opt opt1">
+                <i class="fas fa-vector-square fa-2x"></i>
+                <p>Setores</p>
+            </div>
+        </div>
+        <div class="row subRow" id="row4">
+            <div class="opt opt1">
+                <i class="fas fa-users fa-2x"></i>
+                <p>Gerentes</p>
+            </div>
+            <div class="opt opt1">
+                <i class="fas fa-building fa-2x"></i>
+                <p>Unidades</p>
+            </div>
         </div>
     </div>
     <div class="tableBack" id="tBack">
@@ -66,7 +94,7 @@
             <input type="text" id="dataIncBol" placeholder="data de inicio">
             <input type="text" id="setorBol" placeholder="setor do bolsista">
             <input type="password" id="passBol" placeholder="senha">
-            <button type="button">Adicionar</button>
+            <button type="button" onclick="add()">Adicionar</button>
             <button type="button" onclick="hideForm()">Cancelar</button>
         </div>
         <div class="formAddBolsista" id="updateForm">
@@ -82,16 +110,16 @@
         <div class="formAddBolsista" id="addFormPonto">
             <h3>Adicionar Registro de Ponto</h3>
             <input type="text" id="cpfBolPonto" placeholder="cpf">
-            <input type="text" id="nomebolPonto" placeholder="dia">
+            <input type="text" id="diabolPonto" placeholder="dia">
             <input type="text" id="horaIncBolPonto" placeholder="hora de inicio">
             <input type="text" id="horaSaidaBolPonto" placeholder="hora de saida">
-            <button type="button">Adicionar</button>
+            <button type="button" onclick="add()">Adicionar</button>
             <button type="button" onclick="hideForm()">Cancelar</button>
         </div>
         <div class="formAddBolsista" id="updateFormPonto">
             <h3>Atualizar Registro de Ponto</h3>
             <input type="text" id="updateCpfBolPonto" placeholder="cpf">
-            <input type="text" id="updateNomebolPonto" placeholder="dia">
+            <input type="text" id="updateNomebolPonto" placeholder="dia 00/00/00">
             <input type="text" id="updateHoraIncBolPonto" placeholder="hora de inicio">
             <input type="text" id="updateHoraSaidaBolPonto" placeholder="hora de saida">
             <button type="button">Salvar Alterações</button>

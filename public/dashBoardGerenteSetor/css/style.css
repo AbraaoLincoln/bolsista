@@ -44,12 +44,22 @@ header span:hover{
     flex-direction: column;
 }
 
+
+/* .subMenu{
+    width: 30%;
+} */
+
 .row{
     display: flex;
     justify-content: space-around;
     align-items: center;
     height: 30%;
     width: 60%;
+}
+
+.subRow{
+    display: none;
+    width: 30%;
 }
 
 .opt{
@@ -72,6 +82,10 @@ i{
     cursor: pointer;
     background-color: #2a628f;
     color: #fff8f0;
+}
+
+.opt1{
+    width: 40%;
 }
 
 .tableBack{

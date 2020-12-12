@@ -44,10 +44,15 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.post('/all', async (req, res) => {
+router.post('/completo', async (req, res) => {
     console.log(req.body);
     try {
-        
+        let sqlInsert = "insert into registro_ponto values ('"+ req.body.data + "'," + req.body.horaEntrada + "," + req.body.horaSaida + "," + req.body.cpf + ')';
+        await promisify(dbCon, sqlInsert);
+        let r = await promisify(dbCon, "select carga_horaria from bolsista where id = " + req.body.cpf);
+        let nova_carga_horaria = r[0].carga_horaria + util.calculateNewCargaHoraria(req.body.horaEntrada, req.body.horaSaida);
+        sqlUpdate = "update bolsista set carga_horaria = " + nova_carga_horaria + " where id = " + req.body.cpf;
+        await promisify(dbCon, sqlUpdate);
         res.json({status: 'ok'});
     } catch (err) {
         console.log(err);
