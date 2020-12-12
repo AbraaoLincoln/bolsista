@@ -30,13 +30,18 @@
                 <p>Gerenciar</p>
                 <p>Justificativas</p>
             </div>
+            <!-- <div class="opt">
+                <i class="fas fa-desktop fa-2x"></i>
+                <p>Gerenciar</p>
+                <p>Maquinas</p>
+            </div> -->
+        </div>
+        <div class="row" id="row2">
             <div class="opt">
                 <i class="fas fa-desktop fa-2x"></i>
                 <p>Gerenciar</p>
                 <p>Maquinas</p>
             </div>
-        </div>
-        <div class="row" id="row2">
             <div class="opt" onclick="showSetorMenu()">
                 <i class="fas fa-vector-square fa-2x"></i>
                 <p>Gerenciar</p>
@@ -47,25 +52,25 @@
                 <p>Gerenciar</p>
                 <p>Unidades</p>
             </div>
-            <div class="opt">7</div>
-            <div class="opt">8</div>
+            <!-- <div class="opt opt-NotAvalible">7</div> -->
+            <!-- <div class="opt opt-NotAvalible">8</div> -->
         </div>
         <div class="row subRow" id="row3">
-            <div class="opt opt1">
+            <div class="opt opt1" onclick="carregarGerenteSetor()">
                 <i class="fas fa-users fa-2x"></i>
                 <p>Gerentes</p>
             </div>
-            <div class="opt opt1">
+            <div class="opt opt1" onclick="carregarSetores()">
                 <i class="fas fa-vector-square fa-2x"></i>
                 <p>Setores</p>
             </div>
         </div>
         <div class="row subRow" id="row4">
-            <div class="opt opt1">
+            <div class="opt opt1" onclick="carregarGerenteUnidade()">
                 <i class="fas fa-users fa-2x"></i>
                 <p>Gerentes</p>
             </div>
-            <div class="opt opt1">
+            <div class="opt opt1" onclick="carregarUnidades()">
                 <i class="fas fa-building fa-2x"></i>
                 <p>Unidades</p>
             </div>
@@ -122,6 +127,42 @@
             <input type="text" id="updateNomebolPonto" placeholder="dia 00/00/00">
             <input type="text" id="updateHoraIncBolPonto" placeholder="hora de inicio">
             <input type="text" id="updateHoraSaidaBolPonto" placeholder="hora de saida">
+            <button type="button">Salvar Alterações</button>
+            <button type="button" onclick="hideForm()">Cancelar</button>
+        </div>
+        <div class="formAddBolsista" id="addFormGerenteSetor">
+            <h3>Adicionar Gerente de Setor</h3>
+            <input type="text" id="cpfGerenteSetor" placeholder="cpf">
+            <input type="text" id="nomeGerenteSetor" placeholder="nome">
+            <input type="text" id="setorGerencia" placeholder="Setor">
+            <input type="password" id="passGrenteSetor" placeholder="senha">
+            <button type="button" onclick="add()">Adicionar</button>
+            <button type="button" onclick="hideForm()">Cancelar</button>
+        </div>
+        <div class="formAddBolsista" id="updateFormGerenteSetor">
+            <h3>Atualizar Dados do Gerente Setor</h3>
+            <input type="text" id="updateCpfGerenteSetor" placeholder="cpf">
+            <input type="text" id="updateNomeGerenteSetor" placeholder="nome">
+            <input type="text" id="updateSetorGerencia" placeholder="setor gerencia">
+            <input type="password" id="updatePassGerenteSetor" placeholder="nova senha">
+            <button type="button">Salvar Alterações</button>
+            <button type="button" onclick="hideForm()">Cancelar</button>
+        </div>
+        <div class="formAddBolsista" id="addFormGerenteUnidade">
+            <h3>Adicionar Gerente de Unidade</h3>
+            <input type="text" id="cpfGerenteUnidade" placeholder="cpf">
+            <input type="text" id="nomeGerenteUnidade" placeholder="nome">
+            <input type="text" id="unidadeGerencia" placeholder="unidade">
+            <input type="password" id="passGrenteUnidade" placeholder="senha">
+            <button type="button" onclick="add()">Adicionar</button>
+            <button type="button" onclick="hideForm()">Cancelar</button>
+        </div>
+        <div class="formAddBolsista" id="updateFormGerenteUnidade">
+            <h3>Atualizar Dados do Gerente Unidade</h3>
+            <input type="text" id="updateCpfGerenteUnidade" placeholder="cpf">
+            <input type="text" id="updateNomeGerenteUnidade" placeholder="nome">
+            <input type="text" id="updateUnidadeGerencia" placeholder="unidade gerencia">
+            <input type="password" id="updatePassGerenteUnidade" placeholder="nova senha">
             <button type="button">Salvar Alterações</button>
             <button type="button" onclick="hideForm()">Cancelar</button>
         </div>

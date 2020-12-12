@@ -1,16 +1,12 @@
 const express = require('express')
-const path = require('path');
+// const path = require('path');
 let router = express.Router();
 const promisify = require('../../DB/promisify');
 const dbCon = require('../../DB/dbCon');
 
-router.get('/', (req, res) => {
-    res.sendFile('gerenciametoSetor.html', {root: path.join(__dirname, '../../views/dashBoardGerenteSetor')});
-});
-
 router.get('/gerentes', async (req, res) => {
     try {
-        let sql = 'select id, nome, setorGerencia from gerenteSetor';
+        let sql = 'select id, nome, unidadeGerencia from gerenteUnidade';
         let result = await promisify(dbCon, sql);
         res.json({status: 'ok', listaGerentes: result});
     } catch (err) {
@@ -19,11 +15,11 @@ router.get('/gerentes', async (req, res) => {
     }
 });
 
-router.get('/setores', async (req, res) => {
+router.get('/unidades', async (req, res) => {
     try {
-        let sql = 'select * from setor;';
+        let sql = 'select * from unidade;';
         let result = await promisify(dbCon, sql);
-        res.json({status: 'ok', listaSetores: result});
+        res.json({status: 'ok', listaUnidades: result});
     } catch (err) {
         console.log(err);
         res.json({status: 'error'});

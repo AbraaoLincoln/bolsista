@@ -59,7 +59,8 @@ header span:hover{
 
 .subRow{
     display: none;
-    width: 30%;
+    /* width: 30%; */
+    width: 50%;
 }
 
 .opt{
@@ -67,7 +68,7 @@ header span:hover{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 20%;
+    width: 30%;
     height: 90%;
     box-shadow: 1px 1px 4px black;
     border-radius: 5px;
@@ -86,6 +87,10 @@ i{
 
 .opt1{
     width: 40%;
+}
+
+.opt-NotAvalible{
+    visibility: hidden;
 }
 
 .tableBack{
