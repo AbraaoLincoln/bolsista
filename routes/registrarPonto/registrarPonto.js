@@ -113,7 +113,7 @@ router.put('/', async (req, res) => {
                 let nova_carga_horaria = r[0].carga_horaria - cargaOldPonto;
                 // console.log('test11' + "--" + nova_carga_horaria);
                 sqlUpdate = "update bolsista set carga_horaria = " + nova_carga_horaria + " where cpf = " + req.body.cpf;
-                let aux = await promisify(dbCon, sqlUpdate);
+                // let aux = await promisify(dbCon, sqlUpdate);
                 // console.log(aux);
                 let sql = "select * from registro_ponto where dia = " + (newData ? newData : req.body.data) + " and bolsista = " + (newCpf ? newCpf : req.body.cpf) ;
                 // console.log("sql-" + sql);
@@ -139,6 +139,12 @@ router.delete('/', async (req, res) => {
     console.log(req.body.listaDeRegistroToDelete);
     try {
         for(registro of req.body.listaDeRegistroToDelete){
+            let rS = await promisify(dbCon, "select carga_horaria from bolsista where cpf = " + registro.cpf);
+            let sql =  "select * from registro_ponto where dia = '" + registro.dia + "' and bolsista = " + registro.cpf ;
+            let registroDePonto =  await promisify(dbCon, sql);
+            let nova_carga_horaria = rS[0].carga_horaria - util.calculateNewCargaHoraria(registroDePonto[0].hora_entrada, registroDePonto[0].hora_saida);
+            let sqlUpdate = "update bolsista set carga_horaria = " + nova_carga_horaria + " where cpf = " + registro.cpf;
+            await promisify(dbCon, sqlUpdate);
             let sqlDelete = "delete from registro_ponto where dia = '" + registro.dia + "' and bolsista = " + registro.cpf;
             console.log(sqlDelete);
             await promisify(dbCon, sqlDelete);
