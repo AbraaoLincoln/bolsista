@@ -42,3 +42,10 @@ exports.calculateNewCargaHoraria = (horarioIncio, horarioFim) => {
 // calculateNewCargaHoraria(820, 1920);
 // calculateNewCargaHoraria(1840, 1923);
 // calculateNewCargaHoraria(1202, 1302);
+
+exports.formatAtribute = (atr) => {
+    let formatAtr = atr.toLowerCase();
+    formatAtr = formatAtr.replace(' ', '_');
+    console.log(formatAtr);
+    return formatAtr;
+}

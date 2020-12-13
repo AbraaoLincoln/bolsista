@@ -124,10 +124,10 @@
         <div class="formAddBolsista" id="updateFormPonto">
             <h3>Atualizar Registro de Ponto</h3>
             <input type="text" id="updateCpfBolPonto" placeholder="cpf">
-            <input type="text" id="updateNomebolPonto" placeholder="dia 00/00/00">
-            <input type="text" id="updateHoraIncBolPonto" placeholder="hora de inicio">
-            <input type="text" id="updateHoraSaidaBolPonto" placeholder="hora de saida">
-            <button type="button">Salvar Alterações</button>
+            <input type="text" name="data" id="updateNomebolPonto" placeholder="dia 00/00/00">
+            <input type="text" name="hora" id="updateHoraIncBolPonto" placeholder="hora de inicio">
+            <input type="text" name="hora" id="updateHoraSaidaBolPonto" placeholder="hora de saida">
+            <button type="button" onclick="update()">Salvar Alterações</button>
             <button type="button" onclick="hideForm()">Cancelar</button>
         </div>
         <div class="formAddBolsista" id="addFormGerenteSetor">

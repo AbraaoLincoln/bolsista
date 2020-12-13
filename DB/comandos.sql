@@ -91,6 +91,7 @@ set new.hora_saida = 0;
 end if;
 end $$
 
+DELIMITER $$
 DROP TRIGGER IF EXISTS check_hora_update $$
 create trigger check_hora_update before update 
 on registro_ponto
@@ -98,6 +99,16 @@ for each row
 begin
 if  old.hora_entrada > new.hora_saida then
 set new.hora_saida = old.hora_saida;
+end if;
+end $$
+
+DROP TRIGGER IF EXISTS check_horaEntrada_update $$
+create trigger check_horaEntrada_update before update 
+on registro_ponto
+for each row
+begin
+if  new.hora_entrada > old.hora_saida then
+set new.hora_entrada = old.hora_entrada;
 end if;
 end $$
 

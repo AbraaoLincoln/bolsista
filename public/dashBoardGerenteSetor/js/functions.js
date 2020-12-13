@@ -7,6 +7,7 @@
 // 6 = gerenciamento de unidade
 var currentPage = 0;
 // var tableRows = [];
+var auxAtr = [];
 
 window.onload = start;
 
@@ -80,7 +81,7 @@ function createTableBolsistas(listaDeBolsistas){
         let tableRow = document.createElement('tr');
         tableRow.addEventListener('dblclick', showEditBolsista)
         let tableHeader1 = document.createElement('td');
-        tableHeader1.innerHTML = bolsista.id;
+        tableHeader1.innerHTML = bolsista.cpf;
         let tableHeader2 = document.createElement('td');
         tableHeader2.innerHTML = bolsista.nome;
         tableHeader2.className = 'tdNome';
@@ -157,7 +158,7 @@ function createTableGerentes(listaDeGerentes,  typeOfGerente){
         let tableRow = document.createElement('tr');
         tableRow.addEventListener('dblclick', !typeOfGerente ? showEditGerenteSetor : showEditGerenteUnidade);
         let tableHeader1 = document.createElement('td');
-        tableHeader1.innerHTML = gerente.id;
+        tableHeader1.innerHTML = gerente.cpf;
         let tableHeader2 = document.createElement('td');
         tableHeader2.innerHTML = gerente.nome;
         tableHeader2.className = 'tdNome';
@@ -284,7 +285,6 @@ function showEditBolsista(event){
 }
 
 function showEditRegistroPonto(event){
-    console.log(event.target.parentNode);
     document.getElementById('bForms').style.display = 'flex';
     hideForms();
     document.getElementById('updateFormPonto').style.display = 'flex';
@@ -340,7 +340,7 @@ async function carregarRegistroPonto(){
 
 function createTableRegistroPonto(listaDeRegistro){
     // tableRows = [];
-    let atributes = ['CPF', 'Dia', 'Hora Inicio', 'Hora Saida'];
+    let atributes = ['Bolsista', 'Dia', 'Hora Entrada', 'Hora Saida'];
     let table = document.getElementById('tBolsista');
     table.innerHTML = '';
 
@@ -384,7 +384,11 @@ function createTableRegistroPonto(listaDeRegistro){
 function formatHour(hourInt){
     if(hourInt){
         let str = hourInt.toString();
-        return str[0] + str[1] + ':' + str[2] + str[3];
+        if(str.length == 3){
+            return str[0] + ':' + str[1] + str[2];
+        }else{
+            return str[0] + str[1] + ':' + str[2] + str[3];
+        }
     }
 }
 
@@ -447,6 +451,22 @@ function add(){
     }
 }
 
+function update(){
+    switch(currentPage){
+        case 1:
+            break;
+        case 2:
+            auxAtr.push(document.getElementById('updateCpfBolPonto').value);
+            auxAtr.push(document.getElementById('updateNomebolPonto').value);
+            atualizarPontoNoBD({
+                cpf: auxAtr[0],
+                data: formatDateMysql(auxAtr[1]),
+                listaDeAtributos: makeListOfAtributes('updateFormPonto')
+            });
+            break;
+    }
+}
+
 
 function deleteAll(){
     let table = document.getElementById('tBolsista');
@@ -502,6 +522,53 @@ async function registrarPontoCompletoNoBD(){
       console.log(err);  
     }
 
+}
+
+function makeListOfAtributes(form){
+    let atrs = document.getElementById('tBolsista').children[0].children;
+    let inputs = [];
+    let listaDeAtributos = [];
+    for(i of document.getElementById(form).children){
+        if(i.nodeName == 'INPUT'){
+            inputs.push(i);
+        }
+    }
+    for(let i = 0; i < (atrs.length - 1); i++){
+        let obj = {};
+        obj.atr = atrs[i].innerText;
+        if(inputs[i].name == 'hora'){
+            obj.val = inputs[i].value.replace(':', '');
+        }else if(inputs[i].name == 'data'){
+            obj.val = "'" + formatDateMysql(inputs[i].value) + "'";
+        }else{
+            obj.val = inputs[i].value;
+        }
+        listaDeAtributos.push(obj);
+    }
+    console.log(listaDeAtributos);
+    return listaDeAtributos
+}
+
+async function atualizarPontoNoBD(pontoToUpdate){
+    pontoToUpdate.novaCargaH = 1;
+    try {
+        let rawData = await fetch('http://localhost:3000/ponto', {
+           method: "PUT",
+           headers: {
+               'Accept': 'application/json',
+               'Content-type': 'application/json'
+           },
+           body: JSON.stringify(pontoToUpdate) 
+        });
+        let res = await rawData.json();
+        if(res.status == 'ok'){
+            alert('Ponto Atualizado com sucesso!');
+        }else{
+            alert('Erro ao atualizar o ponto tente novamente mais tarde!');
+        }
+    } catch (err) {
+      console.log(err);  
+    }
 }
 
 
