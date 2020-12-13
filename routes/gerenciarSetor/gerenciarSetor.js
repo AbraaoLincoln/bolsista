@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 
 router.get('/gerentes', async (req, res) => {
     try {
-        let sql = 'select id, nome, setorGerencia from gerenteSetor';
+        let sql = 'select cpf, nome, setorGerencia from gerenteSetor';
         let result = await promisify(dbCon, sql);
         res.json({status: 'ok', listaGerentes: result});
     } catch (err) {

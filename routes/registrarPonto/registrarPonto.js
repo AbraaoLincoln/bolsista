@@ -70,34 +70,59 @@ router.post('/completo', async (req, res) => {
 })
 
 router.put('/', async (req, res) => {
-    console.log(req.body);
-    let cargaOldPonto = 0
-    if(req.body.novaCargaH){
-        let sql =  "select * from registro_ponto where dia = '" + req.body.data + "' and bolsista = " + req.body.cpf ;
-        let registroDeEntrada =  await promisify(dbCon, sql);
-        cargaH = util.calculateNewCargaHoraria(registroDeEntrada[0].hora_entrada, registroDeEntrada[0].hora_saida);
-    }
-
     try {
+        console.log(req.body);
+        let cargaOldPonto = 0;
+        let newCpf = 0;
+        let newData = '';
+
+        if(req.body.novaCargaH){
+            // console.log('update carga')
+            let sql =  "select * from registro_ponto where dia = '" + req.body.data + "' and bolsista = " + req.body.cpf ;
+            let registroDePonto =  await promisify(dbCon, sql);
+            cargaOldPonto = util.calculateNewCargaHoraria(registroDePonto[0].hora_entrada, registroDePonto[0].hora_saida);
+            // console.log(cargaOldPonto);
+        }
+
         let sqlUpdate = "update registro_ponto set ";
         for(let i = 0; i < req.body.listaDeAtributos.length; i++){
             if(i == 0){
                 sqlUpdate += util.formatAtribute(req.body.listaDeAtributos[i].atr) + " = " + req.body.listaDeAtributos[i].val;
             }else{
                 sqlUpdate += ", "+ util.formatAtribute(req.body.listaDeAtributos[i].atr) + " = " + req.body.listaDeAtributos[i].val;
-            }    
+            }
+            
+            if(util.formatAtribute(req.body.listaDeAtributos[i].atr) == 'bolsista'){
+                newCpf = req.body.listaDeAtributos[i].val;
+            }
+
+            if(util.formatAtribute(req.body.listaDeAtributos[i].atr) == 'dia'){
+                newData = req.body.listaDeAtributos[i].val;
+            }
         }
+        // console.log(newCpf + '--' + newData);
         sqlUpdate += " where dia = '" + req.body.data + "' and bolsista = " + req.body.cpf;
         // console.log(sqlUpdate);
         let rUpd = await promisify(dbCon, sqlUpdate);
+        // console.log(rUpd.changedRows);
         if(rUpd.changedRows){
+            // console.log('test1')
             if(req.body.novaCargaH){
                 let r = await promisify(dbCon, "select carga_horaria from bolsista where cpf = " + req.body.cpf);
+                // console.log(r[0].carga_horaria)
                 let nova_carga_horaria = r[0].carga_horaria - cargaOldPonto;
-                let sql =  "select * from registro_ponto where dia = '" + req.body.data + "' and bolsista = " + req.body.cpf ;
-                let registroDeEntrada =  await promisify(dbCon, sql);
-                nova_carga_horaria += util.calculateNewCargaHoraria(registroDeEntrada[0].hora_entrada, registroDeEntrada[0].hora_saida);
+                // console.log('test11' + "--" + nova_carga_horaria);
                 sqlUpdate = "update bolsista set carga_horaria = " + nova_carga_horaria + " where cpf = " + req.body.cpf;
+                let aux = await promisify(dbCon, sqlUpdate);
+                // console.log(aux);
+                let sql = "select * from registro_ponto where dia = " + (newData ? newData : req.body.data) + " and bolsista = " + (newCpf ? newCpf : req.body.cpf) ;
+                // console.log("sql-" + sql);
+                let registroDePonto =  await promisify(dbCon, sql);
+                // console.log(registroDePonto);
+                r = await promisify(dbCon, "select carga_horaria from bolsista where cpf = " + (newCpf ? newCpf : req.body.cpf));
+                nova_carga_horaria = r[0].carga_horaria + util.calculateNewCargaHoraria(registroDePonto[0].hora_entrada, registroDePonto[0].hora_saida);
+                // console.log('test12' + "--" + nova_carga_horaria);
+                sqlUpdate = "update bolsista set carga_horaria = " + nova_carga_horaria + " where cpf = " + (newCpf ? newCpf : req.body.cpf);
                 await promisify(dbCon, sqlUpdate);
             }
             res.json({status: 'ok'});

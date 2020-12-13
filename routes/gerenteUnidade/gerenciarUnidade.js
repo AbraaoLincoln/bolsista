@@ -6,7 +6,7 @@ const dbCon = require('../../DB/dbCon');
 
 router.get('/gerentes', async (req, res) => {
     try {
-        let sql = 'select id, nome, unidadeGerencia from gerenteUnidade';
+        let sql = 'select cpf, nome, unidadeGerencia from gerenteUnidade';
         let result = await promisify(dbCon, sql);
         res.json({status: 'ok', listaGerentes: result});
     } catch (err) {

@@ -223,7 +223,7 @@ function createTableSetores(lista,  typeOf){
 
     for(aux of lista){
         let tableRow = document.createElement('tr');
-        tableRow.addEventListener('dblclick', typeOf ? showEditGerenteSetor : showEditGerenteUnidade);
+        // tableRow.addEventListener('dblclick', typeOf ? showEditGerenteSetor : showEditGerenteUnidade);
         let tableHeader1 = document.createElement('td');
         tableHeader1.innerHTML = aux.id;
         let tableHeader2 = document.createElement('td');
@@ -295,10 +295,12 @@ function showEditRegistroPonto(event){
     document.getElementById('updateNomebolPonto').value = dadosBolsista[1].innerText;
     document.getElementById('updateHoraIncBolPonto').value = dadosBolsista[2].innerText;
     document.getElementById('updateHoraSaidaBolPonto').value = dadosBolsista[3].innerText;
+
+    auxAtr.push(document.getElementById('updateCpfBolPonto').value);
+    auxAtr.push(document.getElementById('updateNomebolPonto').value);
 }
 
 function showEditGerenteSetor(event){
-    console.log(event.target.parentNode);
     document.getElementById('bForms').style.display = 'flex';
     hideForms();
     document.getElementById('updateFormGerenteSetor').style.display = 'flex';
@@ -311,7 +313,6 @@ function showEditGerenteSetor(event){
 }
 
 function showEditGerenteUnidade(event){
-    console.log(event.target.parentNode);
     document.getElementById('bForms').style.display = 'flex';
     hideForms();
     document.getElementById('updateFormGerenteUnidade').style.display = 'flex';
@@ -456,13 +457,12 @@ function update(){
         case 1:
             break;
         case 2:
-            auxAtr.push(document.getElementById('updateCpfBolPonto').value);
-            auxAtr.push(document.getElementById('updateNomebolPonto').value);
             atualizarPontoNoBD({
                 cpf: auxAtr[0],
                 data: formatDateMysql(auxAtr[1]),
                 listaDeAtributos: makeListOfAtributes('updateFormPonto')
             });
+            auxAtr = [];
             break;
     }
 }
