@@ -3,9 +3,9 @@ function showTable(){
     document.getElementById('tBack').style.display ='flex';
 }
 
-function hideBform(event){
+function hideBform(){
     hideForms();
-    event.target.style.display = 'none';
+    document.getElementById('bForms').style.display ='none';
 }
 
 function hideForm(event){
@@ -28,6 +28,8 @@ function hideForms(){
     document.getElementById('updateFormSetor').style.display = 'none';
     document.getElementById('addFormUnidade').style.display = 'none';
     document.getElementById('updateFormUnidade').style.display = 'none';
+    document.getElementById('addFormJust').style.display = 'none';
+    document.getElementById('updateFormJust').style.display = 'none';
 }
 
 function showAddForm(){
@@ -37,6 +39,8 @@ function showAddForm(){
         document.getElementById('addForm').style.display = 'flex';
     }else if(currentPage == 2){
         document.getElementById('addFormPonto').style.display = 'flex';
+    }else if(currentPage == 3){
+        document.getElementById('addFormJust').style.display = 'flex';
     }else if(currentPage == 4){
         document.getElementById('addFormMaquina').style.display = 'flex';
     }else if(currentPage == 5){
@@ -77,6 +81,23 @@ function showEditRegistroPonto(event){
 
     auxAtr.push(document.getElementById('updateCpfBolPonto').value);
     auxAtr.push(document.getElementById('updateNomebolPonto').value);
+}
+
+function showEditJustificativa(event){
+    document.getElementById('bForms').style.display = 'flex';
+    // hideForms();
+    document.getElementById('updateFormJust').style.display = 'flex';
+
+    let dadosBolsista = event.target.parentNode.children;
+
+    document.getElementById('updateIdJust').value = dadosBolsista[0].innerText;
+    document.getElementById('updateCpfJust').value = dadosBolsista[1].innerText;
+    document.getElementById('updateDescrJust').value = dadosBolsista[2].innerText;
+    document.getElementById('updateDiaJust').value = dadosBolsista[3].innerText;
+    document.getElementById('updateEstadoJust').value = dadosBolsista[4].innerText;
+
+    auxAtr.push(document.getElementById('updateIdJust').value);
+    auxAtr.push(document.getElementById('updateCpfJust').value);
 }
 
 function showEditMaquina(event){

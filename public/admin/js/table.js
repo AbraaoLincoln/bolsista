@@ -25,7 +25,7 @@ function createTableBolsistas(listaDeBolsistas){
         tableHeader2.className = 'tdNome';
         let tableHeader3 = document.createElement('td');
         let data = new Date(bolsista.data_inicio);
-        tableHeader3.innerHTML = data.getDay() + '/' + data.getMonth() +'/' + data.getFullYear();
+        tableHeader3.innerHTML = data.getDate() + '/' + (data.getMonth() + 1) +'/' + data.getFullYear();
         let tableHeader4 = document.createElement('td');
         tableHeader4.innerHTML = bolsista.carga_horaria;
         let tableHeader5 = document.createElement('td');
@@ -161,6 +161,51 @@ function createTableRegistroPonto(listaDeRegistro){
         tableHeader4.innerHTML = formatHour(registro.hora_saida);
         let tableHeader5 = document.createElement('input');
         tableHeader5.type = 'checkbox';
+        tableRow.appendChild(tableHeader1);
+        tableRow.appendChild(tableHeader2);
+        tableRow.appendChild(tableHeader3);
+        tableRow.appendChild(tableHeader4);
+        tableRow.appendChild(tableHeader5);
+        table.appendChild(tableRow);
+        // tableRows.push(tableRow);
+    }
+}
+
+function createTableJustificativas(listaDeJusstificativas){
+    // tableRows = [];
+    let atributes = ['id', 'CPF', 'Descricao', 'Dia', 'Estado'];
+    let table = document.getElementById('tBolsista');
+    table.innerHTML = '';
+
+    let tableRow1 = document.createElement('tr');
+    for(atr of atributes){
+        let tableHeader1 = document.createElement('th');
+        tableHeader1.innerHTML = atr;
+        tableRow1.appendChild(tableHeader1);
+    }
+    let tableHeader2 = document.createElement('th');
+    tableHeader2.innerHTML = 'Deletar';
+    tableRow1.appendChild(tableHeader2);
+    table.appendChild(tableRow1);
+
+    for(just of listaDeJusstificativas){
+        let tableRow = document.createElement('tr');
+        tableRow.addEventListener('dblclick', showEditJustificativa)
+        let tableHeader0 = document.createElement('td');
+        tableHeader0.innerText = just.id;
+        let tableHeader1 = document.createElement('td');
+        tableHeader1.innerHTML = just.bolsista;
+        let tableHeader2 = document.createElement('td');
+        tableHeader2.innerHTML = just.descricao;
+        tableHeader2.className = 'tdNome';
+        let tableHeader3 = document.createElement('td');
+        let data = new Date(just.dia);
+        tableHeader3.innerHTML = data.getDate() + '/' + (data.getMonth() + 1) +'/' + data.getFullYear();
+        let tableHeader4 = document.createElement('td');
+        tableHeader4.innerText = 'null';
+        let tableHeader5 = document.createElement('input');
+        tableHeader5.type = 'checkbox';
+        tableRow.appendChild(tableHeader0);
         tableRow.appendChild(tableHeader1);
         tableRow.appendChild(tableHeader2);
         tableRow.appendChild(tableHeader3);

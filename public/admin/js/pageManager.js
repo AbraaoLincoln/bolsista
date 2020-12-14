@@ -13,24 +13,35 @@ function start(){
     hideForms()
     switch(localStorage.getItem('page')){
         case '1':
+            document.getElementById('nomePesquisa').disabled = false;
             carregarBolsista();
             break;
         case '2':
+            document.getElementById('nomePesquisa').disabled = false;
             carregarRegistroPonto();
             break;
+        case '3':
+            document.getElementById('nomePesquisa').disabled = true;
+            carregarJustificativas();
+            break;
         case '4':
+            document.getElementById('nomePesquisa').disabled = true;
             carregarMaquinas();
             break;
         case '5':
+            document.getElementById('nomePesquisa').disabled = false;
             carregarGerenteSetor();
             break;
         case '52':
+            document.getElementById('nomePesquisa').disabled = false;
             carregarSetores();
             break;
         case '6':
+            document.getElementById('nomePesquisa').disabled = false;
             carregarGerenteUnidade();
             break;
         case '62':
+            document.getElementById('nomePesquisa').disabled = false;
             carregarUnidades();
             break;
     }
@@ -86,6 +97,7 @@ function showUnidadeMenu(){
 async function carregarBolsista(){
     try {
         currentPage = 1;
+        document.getElementById('nomePesquisa').disabled = false;
         let rawData = await fetch('http://localhost:3000/bolsista');
         let res = await rawData.json();
         // console.log(res.listaDeBolsista);
@@ -101,6 +113,7 @@ async function carregarBolsista(){
 async function carregarGerenteSetor(){
     try {
         currentPage = 5;
+        document.getElementById('nomePesquisa').disabled = false;
         let rawData = await fetch('http://localhost:3000/gerenciarSetor/gerentes');
         let res = await rawData.json();
         createTableGerentes(res.listaGerentes, 0);
@@ -114,6 +127,7 @@ async function carregarGerenteSetor(){
 async function carregarGerenteUnidade(){
     try {
         currentPage = 6;
+        document.getElementById('nomePesquisa').disabled = false;
         let rawData = await fetch('http://localhost:3000/gerenciarUnidade/gerentes');
         let res = await rawData.json();
         createTableGerentes(res.listaGerentes, 1);
@@ -127,6 +141,7 @@ async function carregarGerenteUnidade(){
 async function carregarSetores(){
     try {
         currentPage = 52;
+        document.getElementById('nomePesquisa').disabled = false;
         let rawData = await fetch('http://localhost:3000/gerenciarSetor/setores');
         let res = await rawData.json();
         createTableSetores(res.listaSetores, 0);
@@ -140,6 +155,7 @@ async function carregarSetores(){
 async function carregarUnidades(){
     try {
         currentPage = 62;
+        document.getElementById('nomePesquisa').disabled = false;
         let rawData = await fetch('http://localhost:3000/gerenciarUnidade/unidades');
         let res = await rawData.json();
         createTableSetores(res.listaUnidades, 1);
@@ -153,6 +169,7 @@ async function carregarUnidades(){
 async function carregarRegistroPonto(){
     try {
         currentPage = 2;
+        document.getElementById('nomePesquisa').disabled = false;
         let rawData = await fetch('http://localhost:3000/ponto');
         let res = await rawData.json();
         createTableRegistroPonto(res.result);
@@ -164,9 +181,25 @@ async function carregarRegistroPonto(){
     }
 }
 
+async function carregarJustificativas(){
+    try {
+        currentPage = 3;
+        document.getElementById('nomePesquisa').disabled = true;
+        let rawData = await fetch('http://localhost:3000/justificativa');
+        let res = await rawData.json();
+        createTableJustificativas(res.result);
+        document.getElementById('backMenu').style.display ='none';
+        document.getElementById('tBack').style.display ='flex';
+        localStorage.setItem('page', currentPage);
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 async function carregarMaquinas(){
     try {
         currentPage = 4;
+        document.getElementById('nomePesquisa').disabled = true;
         let rawData = await fetch('http://localhost:3000/maquina');
         let res = await rawData.json();
         createTableMaquina(res.result);

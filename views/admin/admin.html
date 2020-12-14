@@ -30,7 +30,7 @@
                 <p>Gerenciar</p>
                 <p>Ponto</p>
             </div>
-            <div class="opt">
+            <div class="opt" onclick="carregarJustificativas()">
                 <i class="fas fa-clipboard-list fa-2x"></i>
                 <p>Gerenciar</p>
                 <p>Justificativas</p>
@@ -96,7 +96,7 @@
 
         </table>
     </div>
-    <div class="backForms" id="bForms" style="display: none;" onclick="hideBform(event)">
+    <div class="backForms" id="bForms" style="display: none;" onclick="hideBform()">
         <div class="formAddBolsista" id="addForm">
             <h3>Adicionar Bolsista</h3>
             <input type="text" id="cpfBol" placeholder="cpf">
@@ -133,6 +133,26 @@
             <input type="text" name="hora" id="updateHoraIncBolPonto" placeholder="hora de inicio">
             <input type="text" name="hora" id="updateHoraSaidaBolPonto" placeholder="hora de saida">
             <button type="button" onclick="update()">Salvar Alterações</button>
+            <button type="button" onclick="hideForm(event)">Cancelar</button>
+        </div>
+        <div class="formAddBolsista" id="addFormJust">
+            <h3>Adicionar Justificativa</h3>
+            <input type="text" id="idJust" placeholder="id">
+            <input type="text" id="cpfJust" placeholder="cpf">
+            <input type="text" id="descrJust" placeholder="descricao">
+            <input type="text" id="diaJust" placeholder="dias 01/01/2020, 02/01/2020">
+            <input type="text" id="estadoJust" placeholder="estado">
+            <button type="button" onclick="add()">Adicionar</button>
+            <button type="button" onclick="hideForm(event)">Cancelar</button>
+        </div>
+        <div class="formAddBolsista" id="updateFormJust">
+            <h3>Atualizar Justificativa</h3>
+            <input type="text" id="updateIdJust" placeholder="id">
+            <input type="text" id="updateCpfJust" placeholder="cpf">
+            <input type="text" id="updateDescrJust" placeholder="descricao">
+            <input type="text" id="updateDiaJust" placeholder="dias 01/01/2020, 02/01/2020">
+            <input type="text" id="updateEstadoJust" placeholder="estado">
+            <button type="button" onclick="">Salvar Alterações</button>
             <button type="button" onclick="hideForm(event)">Cancelar</button>
         </div>
         <div class="formAddBolsista" id="addFormGerenteSetor">

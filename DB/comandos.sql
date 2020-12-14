@@ -127,11 +127,16 @@ create table justificativa(
 
 create table dia_justificativa(
 	dia date,
-    justificativa int,
-    primary key(dia, justificativa),
-    foreign key(justificativa)
+    justificativa_id int,
+    primary key(dia, justificativa_id),
+    foreign key(justificativa_id)
 		references justificativa(id)
 );
+
+create view justificativa_e_dia as
+select id, descricao, bolsista, dia
+from justificativa, dia_justificativa
+where id = justificativa_id;
 
 create table administrador(
 	cpf char(11),
@@ -163,3 +168,7 @@ insert into gerenteUnidade values(38945131957, 'Rita Isabelle Rocha', 'senha123'
  (04463689201, 'Sarah Brenda Heloisa Gomes', 'senha', '2020-03-07', 0, 3);
  
  insert into bolsista values(12345678912, 'Fulano Cicrano da Silva', '123', '2020-12-11', 100, 1);
+ 
+ insert into justificativa values(1, "Consulta Medica", 79220104865), (2, "sem vontade de ir", 12345678912);
+ 
+ insert into dia_justificativa values('2020-12-15', 1),('2020-12-16', 2),('2020-12-17', 2);
