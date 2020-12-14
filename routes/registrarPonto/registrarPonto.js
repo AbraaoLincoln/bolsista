@@ -4,6 +4,7 @@ const router = express.Router();
 const dbCon = require('../../DB/dbCon');
 const promisify = require('../../DB/promisify');
 const util = require('../../util/aux');
+const sqlInjVerify = require('../../util/sqlInjectionVerify');
 
 router.get('/registro', (req, res) => {
     res.sendFile('registroPonto.html', {root: path.join(__dirname, '../../views/registroPonto')});
@@ -23,6 +24,9 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     console.log(req.body);
     try {
+        sqlInjVerify.checkParam(req.body.data);
+        sqlInjVerify.checkParam(req.body.cpf);
+        sqlInjVerify.checkParam(req.body.hora);
         let sql =  "select * from registro_ponto where dia = '" + req.body.data + "' and bolsista = " + req.body.cpf ;
         let registroDeEntrada =  await promisify(dbCon, sql);
 
@@ -50,8 +54,12 @@ router.post('/', async (req, res) => {
 
 router.post('/completo', async (req, res) => {
     console.log(req.body);
-    if(parseInt(req.body.horaEntrada) <= parseInt(req.body.horaSaida)){
-        try {
+    try {
+        sqlInjVerify.checkParam(req.body.data);
+        sqlInjVerify.checkParam(req.body.horaEntrada);
+        sqlInjVerify.checkParam(req.body.horaSaida);
+        sqlInjVerify.checkParam(req.body.cpf);
+        if(parseInt(req.body.horaEntrada) <= parseInt(req.body.horaSaida)){
             let sqlInsert = "insert into registro_ponto values ('"+ req.body.data + "'," + req.body.horaEntrada + "," + req.body.horaSaida + "," + req.body.cpf + ')';
             await promisify(dbCon, sqlInsert);
             let r = await promisify(dbCon, "select carga_horaria from bolsista where cpf = " + req.body.cpf);
@@ -59,12 +67,11 @@ router.post('/completo', async (req, res) => {
             sqlUpdate = "update bolsista set carga_horaria = " + nova_carga_horaria + " where cpf = " + req.body.cpf;
             await promisify(dbCon, sqlUpdate);
             res.json({status: 'ok'});
-        } catch (err) {
-            console.log(err);
-            res.json({status: 'error'});
+        }else{
+            res.json({status: 'error'});        
         }
-    }else{
-        console.log('asda')
+    } catch (err) {
+        console.log(err);
         res.json({status: 'error'});
     }
 })
@@ -77,6 +84,8 @@ router.put('/', async (req, res) => {
         let newData = '';
 
         if(req.body.novaCargaH){
+            sqlInjVerify.checkParam(req.body.data);
+            sqlInjVerify.checkParam(req.body.cpf);
             // console.log('update carga')
             let sql =  "select * from registro_ponto where dia = '" + req.body.data + "' and bolsista = " + req.body.cpf ;
             let registroDePonto =  await promisify(dbCon, sql);
@@ -86,6 +95,8 @@ router.put('/', async (req, res) => {
 
         let sqlUpdate = "update registro_ponto set ";
         for(let i = 0; i < req.body.listaDeAtributos.length; i++){
+            sqlInjVerify.checkParam(req.body.listaDeAtributos[i].atr);
+            sqlInjVerify.checkParam(req.body.listaDeAtributos[i].val);
             if(i == 0){
                 sqlUpdate += util.formatAtribute(req.body.listaDeAtributos[i].atr) + " = " + req.body.listaDeAtributos[i].val;
             }else{
@@ -139,6 +150,8 @@ router.delete('/', async (req, res) => {
     console.log(req.body.listaDeRegistroToDelete);
     try {
         for(registro of req.body.listaDeRegistroToDelete){
+            sqlInjVerify.checkParam(registro.cpf);
+            sqlInjVerify.checkParam(registro.dia);
             let rS = await promisify(dbCon, "select carga_horaria from bolsista where cpf = " + registro.cpf);
             let sql =  "select * from registro_ponto where dia = '" + registro.dia + "' and bolsista = " + registro.cpf ;
             let registroDePonto =  await promisify(dbCon, sql);
@@ -146,7 +159,7 @@ router.delete('/', async (req, res) => {
             let sqlUpdate = "update bolsista set carga_horaria = " + nova_carga_horaria + " where cpf = " + registro.cpf;
             await promisify(dbCon, sqlUpdate);
             let sqlDelete = "delete from registro_ponto where dia = '" + registro.dia + "' and bolsista = " + registro.cpf;
-            console.log(sqlDelete);
+            // console.log(sqlDelete);
             await promisify(dbCon, sqlDelete);
         }
         res.json({status: 'ok'});
