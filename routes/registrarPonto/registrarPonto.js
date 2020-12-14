@@ -149,20 +149,24 @@ router.put('/', async (req, res) => {
 router.delete('/', async (req, res) => {
     console.log(req.body.listaDeRegistroToDelete);
     try {
-        for(registro of req.body.listaDeRegistroToDelete){
-            sqlInjVerify.checkParam(registro.cpf);
-            sqlInjVerify.checkParam(registro.dia);
-            let rS = await promisify(dbCon, "select carga_horaria from bolsista where cpf = " + registro.cpf);
-            let sql =  "select * from registro_ponto where dia = '" + registro.dia + "' and bolsista = " + registro.cpf ;
-            let registroDePonto =  await promisify(dbCon, sql);
-            let nova_carga_horaria = rS[0].carga_horaria - util.calculateNewCargaHoraria(registroDePonto[0].hora_entrada, registroDePonto[0].hora_saida);
-            let sqlUpdate = "update bolsista set carga_horaria = " + nova_carga_horaria + " where cpf = " + registro.cpf;
-            await promisify(dbCon, sqlUpdate);
-            let sqlDelete = "delete from registro_ponto where dia = '" + registro.dia + "' and bolsista = " + registro.cpf;
-            // console.log(sqlDelete);
-            await promisify(dbCon, sqlDelete);
+        if(req.body.listaDeRegistroToDelete.length !== 0){
+            for(registro of req.body.listaDeRegistroToDelete){
+                sqlInjVerify.checkParam(registro.cpf);
+                sqlInjVerify.checkParam(registro.dia);
+                let rS = await promisify(dbCon, "select carga_horaria from bolsista where cpf = " + registro.cpf);
+                let sql =  "select * from registro_ponto where dia = '" + registro.dia + "' and bolsista = " + registro.cpf ;
+                let registroDePonto =  await promisify(dbCon, sql);
+                let nova_carga_horaria = rS[0].carga_horaria - util.calculateNewCargaHoraria(registroDePonto[0].hora_entrada, registroDePonto[0].hora_saida);
+                let sqlUpdate = "update bolsista set carga_horaria = " + nova_carga_horaria + " where cpf = " + registro.cpf;
+                await promisify(dbCon, sqlUpdate);
+                let sqlDelete = "delete from registro_ponto where dia = '" + registro.dia + "' and bolsista = " + registro.cpf;
+                // console.log(sqlDelete);
+                await promisify(dbCon, sqlDelete);
+            }
+            res.json({status: 'ok'});
+        }else{
+            res.json({status: 'error'});
         }
-        res.json({status: 'ok'});
     } catch (err) {
         console.log(err);
         res.json({status: 'error'});

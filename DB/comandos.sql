@@ -133,10 +133,7 @@ create table dia_justificativa(
 		references justificativa(id)
 );
 
-create view justificativa_e_dia as
-select id, descricao, bolsista, dia
-from justificativa, dia_justificativa
-where id = justificativa_id;
+
 
 create table administrador(
 	cpf char(11),
@@ -172,3 +169,153 @@ insert into gerenteUnidade values(38945131957, 'Rita Isabelle Rocha', 'senha123'
  insert into justificativa values(1, "Consulta Medica", 79220104865), (2, "sem vontade de ir", 12345678912);
  
  insert into dia_justificativa values('2020-12-15', 1),('2020-12-16', 2),('2020-12-17', 2);
+
+create database mydb;
+use mydb;
+
+create table UNIDADE (
+	Id int auto_increment,
+    Nome varchar(45),
+    primary key(id)
+);
+
+create table GERENTE_UNIDADE(
+	Id char(11),
+    Nome varchar(45),
+    Senha varchar(255),
+    FK_IdUnidade int,
+    primary key(Id),
+    foreign key(FK_IdUnidade)
+		references UNIDADE(Id)
+        on update cascade
+        on delete cascade
+    
+);
+
+create table SETOR(
+	Id int auto_increment,
+    Nome varchar(45),
+    FK_IdUnidade int,
+    primary key(Id),
+    foreign key(FK_IdUnidade)
+		references UNIDADE(Id)
+        on update cascade
+        on delete cascade
+);
+
+create table GERENTE_SETOR(
+	Id char(11),
+    Nome varchar(45),
+    Senha varchar(255),
+    FK_IdSetor int,
+    primary key(Id),
+    foreign key(FK_IdSetor)
+		references SETOR(Id)
+        on update cascade
+        on delete cascade
+    
+);
+
+create table MAQUINA(
+	Ip int,
+    FK_IdSetor int,
+    primary key(Ip),
+    foreign key(FK_IdSetor)
+		references SETOR(Id)
+        on update cascade
+        on delete cascade
+);
+
+create table BOLSISTA(
+	Id char(11),
+    Nome varchar(45),
+    Senha varchar(255),
+    Data_inicio date,
+    CargaHoraria int,
+    FK_IdSetor int,
+    primary key(Id),
+    foreign key(FK_IdSetor)
+		references SETOR(Id)
+        on update cascade
+        on delete cascade
+);
+
+create table REGISTRO_PONTO(
+    Dia date,
+    Hora_entrada int,
+    Hora_saida int,
+    FK_IdBolsista char(11),
+    primary key(Dia, FK_IdBolsista),
+    foreign key(FK_IdBolsista)
+		references BOLSISTA(Id)
+        on update cascade
+        on delete cascade
+);
+
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS check_hora $$
+create trigger check_hora before insert 
+on REGISTRO_PONTO
+for each row
+begin
+if  new.Hora_entrada > new.Hora_saida then
+set new.Hora_saida = 0;
+end if;
+end $$
+
+DELIMITER $$
+DROP TRIGGER IF EXISTS check_hora_update $$
+create trigger check_hora_update before update 
+on REGISTRO_PONTO
+for each row
+begin
+if  old.Hora_entrada > new.Hora_saida then
+set new.Hora_saida = old.Hora_saida;
+end if;
+end $$
+
+DROP TRIGGER IF EXISTS check_horaEntrada_update $$
+create trigger check_horaEntrada_update before update 
+on REGISTRO_PONTO
+for each row
+begin
+if  new.Hora_entrada > old.Hora_saida then
+set new.Hora_entrada = old.Hora_entrada;
+end if;
+end $$
+
+DELIMITER ;
+
+create table JUSTIFICATIVA(
+	Id int auto_increment,
+    Descricao varchar(255),
+    FK_IdBolsista char(11),
+    primary key(Id),
+    foreign key(FK_IdBolsista)
+		references BOLSISTA(Id)
+        on update cascade
+        on delete cascade
+);
+
+create table DIA_PONTO(
+	Dia date,
+    FK_IdJustificativa int,
+    primary key(Dia, FK_IdJustificativa),
+    foreign key(FK_IdJustificativa)
+		references JUSTIFICATIVA(Id)
+        on update cascade
+        on delete cascade
+);
+
+create table ADMINISTRADOR(
+	Id char(11),
+    Nome varchar(45),
+    Senha varchar(255),
+    primary key(cpf)
+);
+
+create view justificativa_e_dia as
+select Id, Descricao, FK_IdBolsista, Dia
+from JUSTIFICATIVA, DIA_PONTO
+where Id = FK_IdJustificativa;
