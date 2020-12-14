@@ -10,13 +10,16 @@ var currentPage = 0;
 window.onload = start;
 
 function start(){
+    hideForms()
     switch(localStorage.getItem('page')){
         case '1':
             carregarBolsista();
             break;
         case '2':
-            console.log('asdasd')
             carregarRegistroPonto();
+            break;
+        case '4':
+            carregarMaquinas();
             break;
         case '5':
             carregarGerenteSetor();
@@ -153,6 +156,20 @@ async function carregarRegistroPonto(){
         let rawData = await fetch('http://localhost:3000/ponto');
         let res = await rawData.json();
         createTableRegistroPonto(res.result);
+        document.getElementById('backMenu').style.display ='none';
+        document.getElementById('tBack').style.display ='flex';
+        localStorage.setItem('page', currentPage);
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+async function carregarMaquinas(){
+    try {
+        currentPage = 4;
+        let rawData = await fetch('http://localhost:3000/maquina');
+        let res = await rawData.json();
+        createTableMaquina(res.result);
         document.getElementById('backMenu').style.display ='none';
         document.getElementById('tBack').style.display ='flex';
         localStorage.setItem('page', currentPage);

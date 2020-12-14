@@ -3,7 +3,13 @@ function showTable(){
     document.getElementById('tBack').style.display ='flex';
 }
 
-function hideForm(){
+function hideBform(event){
+    hideForms();
+    event.target.style.display = 'none';
+}
+
+function hideForm(event){
+    event.target.parentNode.style.display = 'none';
     document.getElementById('bForms').style.display = 'none';
 }
 
@@ -16,25 +22,37 @@ function hideForms(){
     document.getElementById('updateFormGerenteSetor').style.display = 'none';
     document.getElementById('addFormGerenteUnidade').style.display = 'none';
     document.getElementById('updateFormGerenteUnidade').style.display = 'none';
+    document.getElementById('addFormMaquina').style.display = 'none';
+    document.getElementById('updateFormMaquina').style.display = 'none';
+    document.getElementById('addFormSetor').style.display = 'none';
+    document.getElementById('updateFormSetor').style.display = 'none';
+    document.getElementById('addFormUnidade').style.display = 'none';
+    document.getElementById('updateFormUnidade').style.display = 'none';
 }
 
 function showAddForm(){
     document.getElementById('bForms').style.display = 'flex';
-    hideForms();
+    // hideForms();
     if(currentPage == 1){
         document.getElementById('addForm').style.display = 'flex';
     }else if(currentPage == 2){
         document.getElementById('addFormPonto').style.display = 'flex';
+    }else if(currentPage == 4){
+        document.getElementById('addFormMaquina').style.display = 'flex';
     }else if(currentPage == 5){
         document.getElementById('addFormGerenteSetor').style.display = 'flex';
+    }else if(currentPage == 52){
+        document.getElementById('addFormSetor').style.display = 'flex';
     }else if(currentPage == 6){
         document.getElementById('addFormGerenteUnidade').style.display = 'flex';
+    }else if(currentPage == 62){
+        document.getElementById('addFormUnidade').style.display = 'flex';
     }
 }
 
 function showEditBolsista(event){
     document.getElementById('bForms').style.display = 'flex';
-    hideForms();
+    // hideForms();
     document.getElementById('updateForm').style.display = 'flex';
 
     let dadosBolsista = event.target.parentNode.children;
@@ -47,7 +65,7 @@ function showEditBolsista(event){
 
 function showEditRegistroPonto(event){
     document.getElementById('bForms').style.display = 'flex';
-    hideForms();
+    // hideForms();
     document.getElementById('updateFormPonto').style.display = 'flex';
 
     let dadosBolsista = event.target.parentNode.children;
@@ -61,9 +79,20 @@ function showEditRegistroPonto(event){
     auxAtr.push(document.getElementById('updateNomebolPonto').value);
 }
 
+function showEditMaquina(event){
+    document.getElementById('bForms').style.display = 'flex';
+    // hideForms();
+    document.getElementById('updateFormMaquina').style.display = 'flex';
+
+    let dadosBolsista = event.target.parentNode.children;
+
+    document.getElementById('updateIpMaquina').value = dadosBolsista[0].innerText;
+    document.getElementById('updateSetorMaquina').value = dadosBolsista[1].innerText;
+}
+
 function showEditGerenteSetor(event){
     document.getElementById('bForms').style.display = 'flex';
-    hideForms();
+    // hideForms();
     document.getElementById('updateFormGerenteSetor').style.display = 'flex';
 
     let dadosBolsista = event.target.parentNode.children;
@@ -73,9 +102,20 @@ function showEditGerenteSetor(event){
     document.getElementById('updateSetorGerencia').value = dadosBolsista[2].innerText;
 }
 
+function showEditSetor(event){
+    document.getElementById('bForms').style.display = 'flex';
+    // hideForms();
+    document.getElementById('updateFormSetor').style.display = 'flex';
+
+    let dadosBolsista = event.target.parentNode.children;
+
+    document.getElementById('updateNomeSetor').value = dadosBolsista[1].innerText;
+    document.getElementById('updateSetorUnidade').value = dadosBolsista[2].innerText;
+}
+
 function showEditGerenteUnidade(event){
     document.getElementById('bForms').style.display = 'flex';
-    hideForms();
+    // hideForms();
     document.getElementById('updateFormGerenteUnidade').style.display = 'flex';
 
     let dadosBolsista = event.target.parentNode.children;
@@ -83,4 +123,14 @@ function showEditGerenteUnidade(event){
     document.getElementById('updateCpfGerenteUnidade').value = dadosBolsista[0].innerText;
     document.getElementById('updateNomeGerenteUnidade').value = dadosBolsista[1].innerText;
     document.getElementById('updateUnidadeGerencia').value = dadosBolsista[2].innerText;
+}
+
+function showEditUnidade(event){
+    document.getElementById('bForms').style.display = 'flex';
+    // hideForms();
+    document.getElementById('updateFormUnidade').style.display = 'flex';
+
+    let dadosBolsista = event.target.parentNode.children;
+
+    document.getElementById('updateNomeUnidade').value = dadosBolsista[1].innerText;
 }

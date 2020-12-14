@@ -218,6 +218,30 @@ tr:hover{
     outline: none;
 }
 
+.smallForm{
+    height: 50%;
+}
+
+.smallForm input{
+    height: 13%;
+}
+
+.smallForm button{
+    height: 13%;
+}
+
+.smallForm2{
+    height: 40%;
+}
+
+.smallForm2 input{
+    height: 20%;
+}
+
+.smallForm2 button{
+    height: 20%;
+}
+
 .formAddBolsista button:hover{
     cursor: pointer;
 }

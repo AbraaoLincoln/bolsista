@@ -109,7 +109,7 @@ function createTableSetores(lista,  typeOf){
 
     for(aux of lista){
         let tableRow = document.createElement('tr');
-        // tableRow.addEventListener('dblclick', typeOf ? showEditGerenteSetor : showEditGerenteUnidade);
+        tableRow.addEventListener('dblclick', typeOf ? showEditUnidade : showEditSetor);
         let tableHeader1 = document.createElement('td');
         tableHeader1.innerHTML = aux.id;
         let tableHeader2 = document.createElement('td');
@@ -166,6 +166,40 @@ function createTableRegistroPonto(listaDeRegistro){
         tableRow.appendChild(tableHeader3);
         tableRow.appendChild(tableHeader4);
         tableRow.appendChild(tableHeader5);
+        table.appendChild(tableRow);
+        // tableRows.push(tableRow);
+    }
+}
+
+function createTableMaquina(listaDeMaquinas){
+    // tableRows = [];
+    let atributes = ['IP', 'Setor'];
+    let table = document.getElementById('tBolsista');
+    table.innerHTML = '';
+
+    let tableRow1 = document.createElement('tr');
+    for(let i = 0; i < atributes.length; i++){
+        let tableHeader1 = document.createElement('th');
+        tableHeader1.innerHTML = atributes[i];
+        tableRow1.appendChild(tableHeader1);
+    }
+    let tableHeader2 = document.createElement('th');
+    tableHeader2.innerHTML = 'Deletar';
+    tableRow1.appendChild(tableHeader2);
+    table.appendChild(tableRow1);
+
+    for(maquina of listaDeMaquinas){
+        let tableRow = document.createElement('tr');
+        tableRow.addEventListener('dblclick', showEditMaquina);
+        let tableHeader1 = document.createElement('td');
+        tableHeader1.innerHTML = maquina.ip;
+        let tableHeader2 = document.createElement('td');
+        tableHeader2.innerHTML = maquina.setor;
+        let tableHeader3 = document.createElement('input');
+        tableHeader3.type = 'checkbox';
+        tableRow.appendChild(tableHeader1);
+        tableRow.appendChild(tableHeader2);
+        tableRow.appendChild(tableHeader3);
         table.appendChild(tableRow);
         // tableRows.push(tableRow);
     }
